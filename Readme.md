@@ -6,16 +6,18 @@ Feed the `arn` for the lambda into the `Alexa Skill` configuration.
 
 ## Deploy
 The end goal is to create a zip with `node_modules`, `src` and `package.json`.
-The build command assumes 7zip is installed on windows. Fix for your machine if needed.
+The `build` command in [lambda](lambda/package.json) assumes 7zip is installed on windows. Fix for your machine if needed.
 
-Upload the file in `dist/build.zip` as *code* in AWS Lambda for the *Function* under the *Code* tab,
+Upload the file in `lambda/dist/build.zip` as *code* in AWS Lambda for the *Function* under the *Code* tab,
 when *Code entry type* is _"Upload a .ZIP file"_.
+
+In configuration handler, pick `src/lambda.handler`
 
 ## Things to ask alexa
 
 > Run `npm run docs` to generate the file.
 
-[List of things to ask](dist/docs/usage.md)
+[List of things to ask](alexa/dist/docs/usage.md)
 
 ## Optimizations
 
