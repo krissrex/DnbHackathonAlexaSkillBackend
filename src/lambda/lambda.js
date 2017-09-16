@@ -101,8 +101,10 @@ const handlers = {
 
         // Assume that from and to are set.
 
+        const recognizedAccount = account => ["MY ACCOUNT", "CURRENT", "SAVINGS"].indexOf(account.toUpperCase()) > -1
+
         let fromBalance = 0
-        if (from.toUpperCase() === 'CURRENT') {
+        if (['CURRENT', 'MY ACCOUNT'].indexOf(from.toUpperCase()) > -1) {
             fromBalance = currentBalance
         } else if (from.toUpperCase() === 'SAVINGS') {
             fromBalance = savingsBalance

@@ -105,7 +105,9 @@
           "id": "1",
           "name": {
             "value": "Current",
-            "synonyms": []
+            "synonyms": [
+              "My account"
+            ]
           }
         }
       ]
