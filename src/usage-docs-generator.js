@@ -29,11 +29,29 @@ write = (data, path) => new Promise((resolve, reject) => {
   })
 })
 
+const sectionList = intents
+  .filter(intent => !intent.name.startsWith("AMAZON"))
+  .map(intent => {
+    const header = intent.name.replace("_", " ")
+    const statements = intent.samples.map(statement => "Alexa, ask Bank Buddy [to/for] " + statement)
+    return { header, statements }
+  })
 
-docs = 
-`# Usage examples
+const body = sectionList.map(section => {
+  let statementString = ""
+  for (let index in section.statements) {
+    let statement = section.statements[index]
+    statementString += `\n* ${statement}`
+  }
+  return `\n## ${section.header}
+  ${statementString}`
+})
+  .join("\n")
 
 
+docs =
+  `# Usage examples
+${body}
 `
 const docsDirectory = 'dist/docs/'
 const docsFileName = 'usage.md'
