@@ -1,6 +1,9 @@
 {
   "name": "bankbuddy-alexa",
   "private": true,
+  "engines": {
+    "node": "6.10"
+  },
   "scripts": {
     "docs": "node ./src/usage-docs-generator.js"
   },
