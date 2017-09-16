@@ -1,0 +1,17 @@
+{
+  "name": "bankbuddy-alexa",
+  "private": true,
+  "scripts": {
+    "docs": "node ./src/usage-docs-generator.js"
+  },
+  "author": {
+    "name": "Kristian Rekstad",
+    "email": "krirek@msn.com"
+  },
+  "dependencies": {
+    "alexa-sdk": "^1.0.14"
+  },
+  "devDependencies": {
+    "mkdirp": "^0.5.1"
+  }
+}

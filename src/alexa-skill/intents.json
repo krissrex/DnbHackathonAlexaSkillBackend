@@ -1,0 +1,114 @@
+{
+  "intents": [
+    {
+      "name": "Account_TransferInternal",
+      "samples": [
+        "move {MoneyAmount} from {FromBankAccount} to {ToBankAccount}"
+      ],
+      "slots": [
+        {
+          "name": "MoneyAmount",
+          "type": "AMAZON.NUMBER",
+          "samples": []
+        },
+        {
+          "name": "FromBankAccount",
+          "type": "AccountList",
+          "samples": []
+        },
+        {
+          "name": "ToBankAccount",
+          "type": "AccountList",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.HelpIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "General_Updates",
+      "samples": [
+        "updates",
+        "what's up",
+        "what is up",
+        "what's new",
+        "what is new",
+        "status",
+        "how I am doing"
+      ],
+      "slots": []
+    },
+    {
+      "name": "Invoice_Pending",
+      "samples": [
+        "List my pending invoices",
+        "list my invoices",
+        "list invoices",
+        "show me my invoices",
+        "what do I need to pay"
+      ],
+      "slots": []
+    },
+    {
+      "name": "MainAccount_Balance",
+      "samples": [
+        "my balance",
+        "how much money I have",
+        "Tell me my balance"
+      ],
+      "slots": []
+    },
+    {
+      "name": "MainAccout_PayContact",
+      "samples": [
+        "Pay {MoneyAmount} to {PhoneContact} ",
+        "Transfer {MoneyAmount} to {PhoneContact}",
+        "Send {MoneyAmount} to {PhoneContact}",
+        "Vipps {MoneyAmount} to {PhoneContact}"
+      ],
+      "slots": [
+        {
+          "name": "MoneyAmount",
+          "type": "AMAZON.NUMBER",
+          "samples": []
+        },
+        {
+          "name": "PhoneContact",
+          "type": "AMAZON.Person",
+          "samples": []
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "AccountList",
+      "values": [
+        {
+          "id": "2",
+          "name": {
+            "value": "Savings",
+            "synonyms": []
+          }
+        },
+        {
+          "id": "1",
+          "name": {
+            "value": "Current",
+            "synonyms": []
+          }
+        }
+      ]
+    }
+  ]
+}
