@@ -11,27 +11,13 @@
 'use strict';
 
 const Alexa = require('alexa-sdk');
+const backend = require('./backend')
 
 const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 
 const languageStrings = {
     'en': {
         translation: {
-            FACTS: [
-                'A year on Mercury is just 88 days long.',
-                'Despite being farther from the Sun, Venus experiences higher temperatures than Mercury.',
-                'Venus rotates anti-clockwise, possibly because of a collision in the past with an asteroid.',
-                'On Mars, the Sun appears about half the size as it does on Earth.',
-                'Earth is the only planet not named after a god.',
-                'Jupiter has the shortest day of all the planets.',
-                'The Milky Way galaxy will collide with the Andromeda Galaxy in about 5 billion years.',
-                'The Sun contains 99.86% of the mass in the Solar System.',
-                'The Sun is an almost perfect sphere.',
-                'A total solar eclipse can happen once every 1 to 2 years. This makes them a rare event.',
-                'Saturn radiates two and a half times more energy into space than it receives from the sun.',
-                'The temperature inside the Sun can reach 15 million degrees Celsius.',
-                'The Moon is moving approximately 3.8 cm away from our planet every year.',
-            ],
             SKILL_NAME: 'Bank bro',
             GET_FACT_MESSAGE: "Here's your fact: ",
             HELP_MESSAGE: 'You can get your balance, invoices, transfer money between accounts, and send money to phone contacts. Or you can say exit... What can I help you with?',
@@ -88,6 +74,11 @@ export interface Handler<T> {
 
 */
 
+const defaultErrorHandler = err => {
+    // TODO log err to backend
+    this.emit(':tell', 'Something went wrong.')
+}
+
 const handlers = {
     /**
      * Transfer money between your accounts.
@@ -128,7 +119,11 @@ const handlers = {
      * Tell recently received money, balance of savings and any pending invoices
      */
     General_Updates() {
-        this.emit(':tell', 'Today you got 100 kroner from Lars-Erik. Your balance is 103 kroner. There are 3 unpaid invoices, for a total of 51322 kroner.')
+        backend.balance()
+            .then(balance => {
+                this.emit(':tell', `Today you got 100 kroner from Lars-Erik. Your balance is ${balance} kroner. There are 3 unpaid invoices, for a total of 51322 kroner.`)
+            })
+            .catch(defaultErrorHandler)
     },
     /**
      * Show pending invoices.
@@ -143,7 +138,16 @@ const handlers = {
      * Usually 'Current' account ("brukskonto").
      */
     MainAccount_Balance() {
-      this.emit(':tell', 'You are broke.')
+        backend.balance()
+        .then(balance => {
+            if (balance == '0') {
+                this.emit(':tell', 'You are broke.')                
+            } else {
+                this.emit(':tell', `Your balance is ${balance} kroner.`)            
+            }
+            
+        })
+        .catch(defaultErrorHandler)
     },
     /**
      * Transfer money to the name of a phone contact.

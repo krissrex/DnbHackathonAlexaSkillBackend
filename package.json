@@ -4,15 +4,20 @@
   "engines": {
     "node": "6.10"
   },
+  "main": "src/lambda/lambda.js",
   "scripts": {
-    "docs": "node ./src/usage-docs-generator.js"
+    "docs": "node ./src/usage-docs-generator.js",
+    "clean": "rm dist/build.zip",
+    "zip": "C:\\\"Program Files\"\\7-Zip\\7z.exe a dist/build.zip node_modules src package.json",
+    "build": "npm run clean && npm run zip"
   },
   "author": {
     "name": "Kristian Rekstad",
     "email": "krirek@msn.com"
   },
   "dependencies": {
-    "alexa-sdk": "^1.0.14"
+    "alexa-sdk": "^1.0.14",
+    "axios": "^0.16.2"
   },
   "devDependencies": {
     "mkdirp": "^0.5.1"
