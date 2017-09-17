@@ -74,9 +74,11 @@ export interface Handler<T> {
 
 */
 
-const defaultErrorHandler = err => {
-    // TODO log err to backend
-    this.emit(':tell', 'Something went wrong.')
+const defaultErrorHandler = (emitHolder) => {
+    return (err) => {
+        // TODO log err to backend
+        emitHolder.emit(':tell', 'Something went wrong.')
+    }
 }
 
 const handlers = {
@@ -155,7 +157,7 @@ const handlers = {
 
                 this.emit(':tell', `${income}Your balance is ${amount} kroner. There are 3 unpaid invoices, for a total of 1042 kroner.`)
             })
-            .catch(defaultErrorHandler)
+            .catch(defaultErrorHandler(this))
     },
 
     /**
@@ -181,7 +183,7 @@ const handlers = {
                 }
 
             })
-            .catch(defaultErrorHandler)
+            .catch(defaultErrorHandler(this))
     },
 
     /**
@@ -209,14 +211,14 @@ const handlers = {
             .then(success => {
                 if (success) {
                     this.emit(':tell', `I found one contact named ${contact} with phone number <say-as interpret-as="telephone">41210381</say-as>.`
-                    + ` Creating transfer of ${amount} kroner.`
-                    + ' Please verify using the Bank Buddy app.'
-                    + ' <amazon:effect name="whispered">Send nudes.</amazon:effect>.')
+                        + ` Creating transfer of ${amount} kroner.`
+                        + ' Please verify using the Bank Buddy app.'
+                        + ' <amazon:effect name="whispered">Send nudes.</amazon:effect>.')
                 } else {
                     this.emit(':tell', 'I was unable to transfer the money.')
                 }
             })
-            .catch(defaultErrorHandler)
+            .catch(defaultErrorHandler(this))
 
     },
 
