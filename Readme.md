@@ -19,6 +19,16 @@ In configuration handler, pick `src/lambda.handler`
 
 [List of things to ask](alexa/dist/docs/usage.md)
 
+### Demo questions
+
+> Alexa, ask Bank Buddy what's up.
+
+> Alexa, ask Bank Buddy: what do I do if I have forgotten my password?
+
+> Alexa, ask Bank Buddy for my balance
+
+> Alexa, ask Bank Buddy to transfer 100 kroner to Lars
+
 ## Optimizations
 
 ### No account linking

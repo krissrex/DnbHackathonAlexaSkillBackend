@@ -103,6 +103,16 @@
           "samples": []
         }
       ]
+    },
+    {
+      "name": "Transactions_List",
+      "samples": [
+        "list my transactions",
+        "latest transactions",
+        "list transactions",
+        "my transactions"
+      ],
+      "slots": []
     }
   ],
   "types": [

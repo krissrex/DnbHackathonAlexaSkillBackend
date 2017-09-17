@@ -65,7 +65,7 @@ const backend = {
      * @return {Promise<boolean>} true if payload's `paymentStatus` is `SUCCESS`
      */
     payContact(contact, amount) {
-        return axios.post('/payment', {receiver: contact, amount})
+        return axios.post('/payment', { receiver: contact, amount })
             .then(response => response.data.paymentStatus === 'SUCCESS')
     },
 
@@ -97,6 +97,7 @@ const backend = {
                 })
                 )
             )
+            .then(transactions => transactions.sort((l, r) => l.timestamp - r.timestamp)) // ascending)
     },
 
     /**
@@ -107,7 +108,7 @@ const backend = {
         return axios.get('/faq', { params: { string: question } })
             .then(response => response.data)
         // return resolve("I won't help you. You are simply too poor to be worth my time.")
-        
+
     }
 }
 

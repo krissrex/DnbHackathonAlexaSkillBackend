@@ -82,6 +82,50 @@ const defaultErrorHandler = (emitHolder) => {
     }
 }
 
+/**
+ * @param {Transaction} transaction 
+ * @return {object} `name` and `amount`
+ */
+const _mapTransaction = transaction => ({
+    name: transaction.account.name,
+    amount: transaction.amount
+})
+
+/**
+ * @param {Transaction[]} transactions 
+ * @return {string}
+ */
+const mapIncomingTransactionsToString = (transactions) => {
+    transactions = transactions.map(_mapTransaction)
+
+    let income = '' // Today you got 100 kroner from Lars-Erik.
+    if (transactions.length) {
+        income = `Today you got ${transactions.length} payments. They are: `
+        transactions.forEach(item => {
+            income += `${item.amount} from ${item.name}. `
+        })
+    }
+    return income
+}
+
+/**
+ * @param {Transaction[]} transactions 
+ * @return {string}
+ */
+const mapAllTransactionsToString = (transactions) => {
+    transactions = transactions.map(_mapTransaction)
+
+    let income = '' // Today you got 100 kroner from Lars-Erik.
+    if (transactions.length) {
+        income = `Your ${transactions.length} latest transactions. They are: `
+        transactions.forEach(item => {
+            const toOrFrom = item.amount < 0 ? 'to' : 'from'
+            income += `${Math.abs(item.amount)} kroner ${toOrFrom} ${item.name}. `
+        })
+    }
+    return income
+}
+
 const handlers = {
     /**
      * Transfer money between your accounts.
@@ -125,6 +169,28 @@ const handlers = {
 
     },
 
+    Transactions_List () {
+        const now = new Date()
+        const ONE_DAY_MILLISECONDS = 1000 * 60 * 60 * 24
+        const yesterday = new Date(now.getTime() - ONE_DAY_MILLISECONDS)
+
+        backend.transactions(yesterday, now)
+            .then(transactions => {
+                if (transactions.length) {
+                    transactions.sort((l, r) => l.id - r.id) // we put some transactions ahead in time. Hotfix
+                    // Last 5
+                    const maxLength = Math.min(transactions.length, 5)
+                    transactions = transactions.splice(transactions.length - maxLength, maxLength)
+
+                    const message = mapAllTransactionsToString(transactions)
+                    this.emit(':tell', message)
+                } else {
+                    this.emit(':tell', 'You have no recent transactions')
+                }
+            })
+            .catch(defaultErrorHandler(this))
+    },
+
     /**
      * Tell recently received money, balance of savings and any pending invoices
      */
@@ -135,27 +201,15 @@ const handlers = {
 
         const transactions = backend.transactions(yesterday, now)
             .then(transactions => {
-                transactions.sort((l, r) => l.timestamp - r.timestamp) // ascending
                 transactions = transactions.filter(transaction => transaction.amount > 0)
-                return transactions.map(transaction => ({
-                    name: transaction.account.name,
-                    amount: transaction.amount
-                })
-                )
+                return transactions
             })
+            .then(mapIncomingTransactionsToString)
 
         const balance = backend.balance()
 
         Promise.all([balance, transactions])
-            .then(([amount, transactionList]) => {
-                let income = '' // Today you got 100 kroner from Lars-Erik.
-                if (transactionList.length) {
-                    income = `Today you got ${transactionList.length} payments. They are: `
-                    transactionList.forEach(item => {
-                        income += `${item.amount} from ${item.name}. `
-                    })
-                }
-
+            .then(([amount, income]) => {
                 this.emit(':tell', `${income}Your balance is ${amount} kroner. There are 3 unpaid invoices, for a total of 1042 kroner.`)
             })
             .catch(defaultErrorHandler(this))
@@ -227,7 +281,7 @@ const handlers = {
         const question = this.event.request.intent.slots.Question.value
         backend.getFaq(question)
             .then(answer => {
-                this.emit(':tell', answer)                
+                this.emit(':tell', answer)
             })
             .catch(defaultErrorHandler(this))
     }
