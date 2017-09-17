@@ -65,7 +65,7 @@ const backend = {
      * @return {Promise<boolean>} true if payload's `paymentStatus` is `SUCCESS`
      */
     payContact(contact, amount) {
-        axios.post('/payment', {receiver: contact, amount})
+        return axios.post('/payment', {receiver: contact, amount})
             .then(response => response.data.paymentStatus === 'SUCCESS')
     },
 
