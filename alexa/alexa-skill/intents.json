@@ -69,7 +69,7 @@
       "slots": []
     },
     {
-      "name": "MainAccout_PayContact",
+      "name": "MainAccount_PayContact",
       "samples": [
         "Pay {MoneyAmount} to {PhoneContact} ",
         "Transfer {MoneyAmount} to {PhoneContact}",

@@ -89,7 +89,7 @@ const handlers = {
      * 3. `ToBankAccount` (string)
      */
     Account_TransferInternal() {
-        const amount = parseInt(this.event.request.intent.slots.MoneyAmount.value)
+        const amount = parseFloat(this.event.request.intent.slots.MoneyAmount.value)
         const from = this.event.request.intent.slots.FromBankAccount.value
         const to = this.event.request.intent.slots.ToBankAccount.value
 
@@ -121,6 +121,7 @@ const handlers = {
         }
 
     },
+
     /**
      * Tell recently received money, balance of savings and any pending invoices
      */
@@ -156,6 +157,7 @@ const handlers = {
             })
             .catch(defaultErrorHandler)
     },
+
     /**
      * Show pending invoices.
      * Third party APIs for this are mocked as of now.
@@ -164,6 +166,7 @@ const handlers = {
     Invoice_Pending() {
         this.emit(':tell', 'You have 3 unpaid invoices. They cost a total of 51322 kroner. I see with your income and savings, there is no way you can pay this. Would you like to declare bankrupcy?')
     },
+
     /**
      * Reads balance of main account, a user specified "favorite".
      * Usually 'Current' account ("brukskonto").
@@ -180,6 +183,7 @@ const handlers = {
             })
             .catch(defaultErrorHandler)
     },
+
     /**
      * Transfer money to the name of a phone contact.
      * This should instruct the phone for further details (for security reasons).
@@ -190,9 +194,24 @@ const handlers = {
      * 2. `PhoneContact` (string, name of a person)
      */
     MainAccount_PayContact() {
+        const amount = parseFloat(this.event.request.intent.slots.MoneyAmount.value)
+        const contact = this.event.request.intent.slots.PhoneContact.value
+
         //FIXME doesn't work properly, because two things. WIP.
-        this.emit(':ask', 'I found one contact named Kristian with phone number 123-123. Is this correct?', '')
-        this.emit(':tell', 'Transferring 100 kroner to Kristian')
+        const contacts = ['Kristian']
+        // TODO use state or something for questions
+        //this.handler.state = "pickingContact"
+        //this.emit(':ask', 'I found one contact named Kristian with phone number 123-123. Is this correct?', '')
+
+        // TODO get actual user contacts
+        // TODO use phone app to verify payment
+        this.emit(':tell', `I found one contact named ${contact} with phone number 41210381.`,
+            `Creating transfer of ${amount} kroner.`,
+            'Please verify using the Bank Buddy app.')
+    },
+
+    Help_Faq() {
+
     },
 
     /**

@@ -28,7 +28,7 @@
 * Alexa, ask Bank Buddy [to/for] how much money I have
 * Alexa, ask Bank Buddy [to/for] Tell me my balance
 
-## MainAccout PayContact
+## MainAccount PayContact
   
 * Alexa, ask Bank Buddy [to/for] Pay {MoneyAmount} to {PhoneContact} 
 * Alexa, ask Bank Buddy [to/for] Transfer {MoneyAmount} to {PhoneContact}
