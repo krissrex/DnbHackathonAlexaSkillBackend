@@ -18,7 +18,7 @@ const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 const languageStrings = {
     'en': {
         translation: {
-            SKILL_NAME: 'Bank bro',
+            SKILL_NAME: 'Bank Buddy',
             GET_FACT_MESSAGE: "Here's your fact: ",
             HELP_MESSAGE: 'You can get your balance, invoices, transfer money between accounts, and send money to phone contacts. Or you can say exit... What can I help you with?',
             HELP_REPROMPT: 'What can I help you with?',
@@ -224,7 +224,12 @@ const handlers = {
     },
 
     Help_Faq() {
-        this.emit(':tell', "I won't help you. You are simply too poor to be worth my time.")
+        const question = this.event.request.intent.slots.Question.value
+        backend.getFaq(question)
+            .then(answer => {
+                this.emit(':tell', answer)                
+            })
+            .catch(defaultErrorHandler(this))
     },
 
     /**

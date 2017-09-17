@@ -14,6 +14,12 @@
 * Alexa, ask Bank Buddy [to/for] status
 * Alexa, ask Bank Buddy [to/for] how I am doing
 
+## Help Faq
+  
+* Alexa, ask Bank Buddy [to/for] How can I {Question}
+* Alexa, ask Bank Buddy [to/for] How do I {Question}
+* Alexa, ask Bank Buddy [to/for] Help me {Question}
+
 ## Invoice Pending
   
 * Alexa, ask Bank Buddy [to/for] List my pending invoices

@@ -49,6 +49,21 @@
       "slots": []
     },
     {
+      "name": "Help_Faq",
+      "samples": [
+        "How can I {Question}",
+        "How do I {Question}",
+        "Help me {Question}"
+      ],
+      "slots": [
+        {
+          "name": "Question",
+          "type": "FaqQuestion",
+          "samples": []
+        }
+      ]
+    },
+    {
       "name": "Invoice_Pending",
       "samples": [
         "List my pending invoices",
@@ -108,6 +123,88 @@
             "synonyms": [
               "My account"
             ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "FaqQuestion",
+      "values": [
+        {
+          "id": null,
+          "name": {
+            "value": "lock myself out of internet bank",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "forget my password",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "my internet bank login code",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "find my bank login",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "SWIFT and IBAN codes",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "if I lose my bank card or forget my PIN",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "pay by card online",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "activate a safe online payment service",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "transfer times and fees",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "be done if the manager of a company changes",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "limits on payments by a card",
+            "synonyms": []
           }
         }
       ]

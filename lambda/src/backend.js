@@ -97,6 +97,17 @@ const backend = {
                 })
                 )
             )
+    },
+
+    /**
+     * @param {string} question
+     * @return {Promise<string>}
+     */
+    getFaq(question) {
+        return axios.get('/faq', { params: { string: question } })
+            .then(response => response.data)
+        // return resolve("I won't help you. You are simply too poor to be worth my time.")
+        
     }
 }
 
