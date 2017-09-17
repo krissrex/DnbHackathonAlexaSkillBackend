@@ -230,21 +230,6 @@ const handlers = {
                 this.emit(':tell', answer)                
             })
             .catch(defaultErrorHandler(this))
-    },
-
-    /**
-     * Default handler for the sample.
-     */
-    GetFact() {
-        // Get a random space fact from the space facts list
-        // Use this.t() to get corresponding language data
-        const factArr = this.t('FACTS');
-        const factIndex = Math.floor(Math.random() * factArr.length);
-        const randomFact = factArr[factIndex];
-
-        // Create speech output
-        const speechOutput = this.t('GET_FACT_MESSAGE') + randomFact;
-        this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomFact);
     }
 };
 
