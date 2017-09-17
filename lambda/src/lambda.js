@@ -93,10 +93,10 @@ const handlers = {
         const from = this.event.request.intent.slots.FromBankAccount.value
         const to = this.event.request.intent.slots.ToBankAccount.value
 
-        backend.accounts()
+        /* backend.accounts()
             .then(accounts => {
                 // TODO get names for accounts or something
-            })
+            }) */
         // FIXME query backend to see if the amount and from/to are valid 
         // A user can have many accounts, so the name should match one of their accounts, or an alias defined in our system (TODO)
         // Just doing some basic "validation" here, but should be done in backend.
@@ -205,13 +205,23 @@ const handlers = {
 
         // TODO get actual user contacts
         // TODO use phone app to verify payment
-        this.emit(':tell', `I found one contact named ${contact} with phone number 41210381.`,
-            `Creating transfer of ${amount} kroner.`,
-            'Please verify using the Bank Buddy app.')
+        backend.payContact(contact, amount)
+            .then(success => {
+                if (success) {
+                    this.emit(':tell', `I found one contact named ${contact} with phone number <say-as interpret-as="telephone">41210381</say-as>.`
+                    + ` Creating transfer of ${amount} kroner.`
+                    + ' Please verify using the Bank Buddy app.'
+                    + ' <amazon:effect name="whispered">Send nudes.</amazon:effect>.')
+                } else {
+                    this.emit(':tell', 'I was unable to transfer the money.')
+                }
+            })
+            .catch(defaultErrorHandler)
+
     },
 
     Help_Faq() {
-
+        this.emit(':tell', "I won't help you. You are simply too poor to be worth my time.")
     },
 
     /**

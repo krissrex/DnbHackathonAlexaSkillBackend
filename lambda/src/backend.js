@@ -48,6 +48,28 @@ const backend = {
     },
 
     /**
+     * Returns stuff like
+     *  
+     * ```
+     {
+    "message": "10 kr sendt fra 12084059280 til 12084941549",
+    "timeStamp": "2017-9-17, 01:17",
+    "paymentStatus": "SUCCESS",
+    "debitAccountNumber": 12084059280,
+    "creditAccountNumber": 12084941549,
+    "amount": "10.00",
+    "paymentIDNumber": 6250000280
+    }```
+     * @param {string} contact 
+     * @param {number} amount 
+     * @return {Promise<boolean>} true if payload's `paymentStatus` is `SUCCESS`
+     */
+    payContact(contact, amount) {
+        axios.post('/payment', {receiver: contact, amount})
+            .then(response => response.data.paymentStatus === 'SUCCESS')
+    },
+
+    /**
      * 
      * @param {Date} from
      * @param {Date} to
