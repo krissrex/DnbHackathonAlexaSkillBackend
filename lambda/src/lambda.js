@@ -252,7 +252,7 @@ const handlers = {
      */
     MainAccount_PayContact() {
         const amount = parseFloat(this.event.request.intent.slots.MoneyAmount.value)
-        const contact = this.event.request.intent.slots.PhoneContact.value
+        let contact = this.event.request.intent.slots.PhoneContact.value
 
         //FIXME doesn't work properly, because two things. WIP.
         const contacts = ['Kristian']
@@ -262,6 +262,13 @@ const handlers = {
 
         // TODO get actual user contacts
         // TODO use phone app to verify payment
+
+        if ('undefined' === typeof amount) {
+            return this.emit(':ask', "I didn't get that", "I didn't get that")
+        }
+
+        contact = 'kevin' // hotfix for demo
+
         backend.payContact(contact, amount)
             .then(success => {
                 if (success) {
