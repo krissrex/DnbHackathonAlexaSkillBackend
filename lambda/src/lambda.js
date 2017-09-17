@@ -262,6 +262,13 @@ const handlers = {
 
         // TODO get actual user contacts
         // TODO use phone app to verify payment
+
+        if ('undefined' === typeof amount) {
+            return this.emit(':ask', "I didn't get that", "I didn't get that")
+        }
+
+        contact = 'kevin' // hotfix for demo
+
         backend.payContact(contact, amount)
             .then(success => {
                 if (success) {

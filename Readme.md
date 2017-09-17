@@ -27,7 +27,7 @@ In configuration handler, pick `src/lambda.handler`
 
 > Alexa, ask Bank Buddy for my balance
 
-> Alexa, ask Bank Buddy to transfer 100 kroner to Lars
+> Alexa, ask Bank Buddy to transfer 100 kroner to Kevin
 
 ## Optimizations
 
