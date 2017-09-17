@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "alexa-sdk": "^1.0.14",
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "dateformat": "^2.0.0"
   }
 }

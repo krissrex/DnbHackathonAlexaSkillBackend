@@ -39,7 +39,7 @@ const amazonDefaultHandlers = {
     NewSession () {
         
     }, */
-    LaunchRequest () {
+    LaunchRequest() {
         this.emit('General_Updates');
     },
     'AMAZON.HelpIntent': function () {
@@ -93,6 +93,10 @@ const handlers = {
         const from = this.event.request.intent.slots.FromBankAccount.value
         const to = this.event.request.intent.slots.ToBankAccount.value
 
+        backend.accounts()
+            .then(accounts => {
+                // TODO get names for accounts or something
+            })
         // FIXME query backend to see if the amount and from/to are valid 
         // A user can have many accounts, so the name should match one of their accounts, or an alias defined in our system (TODO)
         // Just doing some basic "validation" here, but should be done in backend.
@@ -121,9 +125,34 @@ const handlers = {
      * Tell recently received money, balance of savings and any pending invoices
      */
     General_Updates() {
-        backend.balance()
-            .then(balance => {
-                this.emit(':tell', `Today you got 100 kroner from Lars-Erik. Your balance is ${balance} kroner. There are 3 unpaid invoices, for a total of 51322 kroner.`)
+        const now = new Date()
+        const ONE_DAY_MILLISECONDS = 1000 * 60 * 60 * 24
+        const yesterday = new Date(now.getTime() - ONE_DAY_MILLISECONDS)
+
+        const transactions = backend.transactions(yesterday, now)
+            .then(transactions => {
+                transactions.sort((l, r) => l.timestamp - r.timestamp) // ascending
+                transactions = transactions.filter(transaction => transaction.amount > 0)
+                return transactions.map(transaction => ({
+                    name: transaction.account.name,
+                    amount: transaction.amount
+                })
+                )
+            })
+
+        const balance = backend.balance()
+
+        Promise.all([balance, transactions])
+            .then(([amount, transactionList]) => {
+                let income = '' // Today you got 100 kroner from Lars-Erik.
+                if (transactionList.length) {
+                    income = `Today you got ${transactionList.length} payments. They are: `
+                    transactionList.forEach(item => {
+                        income += `${item.amount} from ${item.name}. `
+                    })
+                }
+
+                this.emit(':tell', `${income}Your balance is ${amount} kroner. There are 3 unpaid invoices, for a total of 1042 kroner.`)
             })
             .catch(defaultErrorHandler)
     },
@@ -141,15 +170,15 @@ const handlers = {
      */
     MainAccount_Balance() {
         backend.balance()
-        .then(balance => {
-            if (balance == '0') {
-                this.emit(':tell', 'You are broke.')                
-            } else {
-                this.emit(':tell', `Your balance is ${balance} kroner.`)            
-            }
-            
-        })
-        .catch(defaultErrorHandler)
+            .then(balance => {
+                if (balance == '0') {
+                    this.emit(':tell', 'You are broke.')
+                } else {
+                    this.emit(':tell', `Your balance is ${balance} kroner.`)
+                }
+
+            })
+            .catch(defaultErrorHandler)
     },
     /**
      * Transfer money to the name of a phone contact.
@@ -169,7 +198,7 @@ const handlers = {
     /**
      * Default handler for the sample.
      */
-    GetFact () {
+    GetFact() {
         // Get a random space fact from the space facts list
         // Use this.t() to get corresponding language data
         const factArr = this.t('FACTS');
