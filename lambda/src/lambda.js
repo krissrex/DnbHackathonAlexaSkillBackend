@@ -77,6 +77,7 @@ export interface Handler<T> {
 const defaultErrorHandler = (emitHolder) => {
     return (err) => {
         // TODO log err to backend
+        console.error("Default error handler", err)
         emitHolder.emit(':tell', 'Something went wrong.')
     }
 }
