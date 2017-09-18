@@ -252,10 +252,8 @@ const handlers = {
      */
     MainAccount_PayContact() {
         const amount = parseFloat(this.event.request.intent.slots.MoneyAmount.value)
-        let contact = this.event.request.intent.slots.PhoneContact.value
+        const contact = this.event.request.intent.slots.PhoneContact.value
 
-        //FIXME doesn't work properly, because two things. WIP.
-        const contacts = ['Kristian']
         // TODO use state or something for questions
         //this.handler.state = "pickingContact"
         //this.emit(':ask', 'I found one contact named Kristian with phone number 123-123. Is this correct?', '')
@@ -263,19 +261,16 @@ const handlers = {
         // TODO get actual user contacts
         // TODO use phone app to verify payment
 
-        if ('undefined' === typeof amount) {
+        if ('undefined' === typeof amount ) {
             return this.emit(':ask', "I didn't get that", "I didn't get that")
         }
-
-        contact = 'kevin' // hotfix for demo
 
         backend.payContact(contact, amount)
             .then(success => {
                 if (success) {
                     this.emit(':tell', `I found one contact named ${contact} with phone number <say-as interpret-as="telephone">41210381</say-as>.`
                         + ` Creating transfer of ${amount} kroner.`
-                        + ' Please verify using the Bank Buddy app.'
-                        + ' <amazon:effect name="whispered">Send nudes.</amazon:effect>.')
+                        + ' Please verify using the Bank Buddy app.')
                 } else {
                     this.emit(':tell', 'I was unable to transfer the money.')
                 }

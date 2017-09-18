@@ -1,7 +1,8 @@
 # Amazon Echo (Alexa) backend
 
 ## Setup
-Create the lambda at AWS. Use [this guide](https://github.com/alexa/skill-sample-nodejs-fact/blob/master/step-by-step/1-voice-user-interface.md).  
+Create the lambda at AWS in Ireland (alexa supports 2 zones). Use Alexa Skills Kit as trigger. Look at [awsLambdaConfig.yaml](lambda/awsLambdaConfig.yaml), which is the complete function exported as AWS SAM file.  
+Use [this guide](https://github.com/alexa/skill-sample-nodejs-fact/blob/master/step-by-step/1-voice-user-interface.md).  
 Feed the `arn` for the lambda into the `Alexa Skill` configuration.
 
 ## Deploy
@@ -31,9 +32,13 @@ In configuration handler, pick `src/lambda.handler`
 
 ## Optimizations
 
+> Stuff I didn't do because it was a hackathon with 24 hours of coding
+
 ### No account linking
 
 The Alexa Skill should use [Account Linking](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/linking-an-alexa-user-with-a-user-in-your-system)
 to let Alexa users authorize on the Personal Assistant using OAuth.
 
- 
+### Hardcoded backend ip
+
+The backend ip address is set in the [backend](lambda/src/backend.js) file. Use ENV variables or something.
