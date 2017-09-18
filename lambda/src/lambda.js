@@ -1,11 +1,7 @@
 /* eslint-disable  func-names */
 /* eslint quote-props: ["error", "consistent"]*/
 /**
- * This sample demonstrates a simple skill built with the Amazon Alexa Skills
- * nodejs skill development kit.
- * This sample supports multiple lauguages. (en-US, en-GB, de-DE).
- * The Intent Schema, Custom Slots and Sample Utterances for this skill, as well
- * as testing instructions are located at https://github.com/alexa/skill-sample-nodejs-fact
+ * Alexa skill for AWS Lambda that handles requests for the new DnB API created for PSD2.
  **/
 
 'use strict';
@@ -19,7 +15,6 @@ const languageStrings = {
     'en': {
         translation: {
             SKILL_NAME: 'Bank Buddy',
-            GET_FACT_MESSAGE: "Here's your fact: ",
             HELP_MESSAGE: 'You can get your balance, invoices, transfer money between accounts, and send money to phone contacts. Or you can say exit... What can I help you with?',
             HELP_REPROMPT: 'What can I help you with?',
             STOP_MESSAGE: 'Goodbye!',
@@ -200,10 +195,7 @@ const handlers = {
         const yesterday = new Date(now.getTime() - ONE_DAY_MILLISECONDS)
 
         const transactions = backend.transactions(yesterday, now)
-            .then(transactions => {
-                transactions = transactions.filter(transaction => transaction.amount > 0)
-                return transactions
-            })
+            .then(transactions => transactions.filter(transaction => transaction.amount > 0) )
             .then(mapIncomingTransactionsToString)
 
         const balance = backend.balance()
@@ -221,6 +213,7 @@ const handlers = {
      * Could support _eFaktura_ etc.
      */
     Invoice_Pending() {
+        // no efaktura API yet. Just mock
         this.emit(':tell', 'You have 3 unpaid invoices. They cost a total of 51322 kroner. I see with your income and savings, there is no way you can pay this. Would you like to declare bankrupcy?')
     },
 
