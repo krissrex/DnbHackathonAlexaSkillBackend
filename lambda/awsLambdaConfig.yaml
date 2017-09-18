@@ -1,0 +1,20 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Alexa skill. DNB hackathon
+Resources:
+  dnbAlexaSkillHandler:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: src/lambda.handler
+      Runtime: nodejs6.10
+      CodeUri: .
+      Description: Alexa skill. DNB hackathon
+      MemorySize: 128
+      Timeout: 7
+      Role: 'arn:aws:iam::REDACTED__INSERT_YOUR_OWN:role/lambda_basic_execution'
+      Events:
+        AlexaSkillEvent:
+          Type: AlexaSkill
+      Tags:
+        'lambda-console:blueprint': alexa-skill-kit-sdk-factskill
+        Service: dnb-alexa
