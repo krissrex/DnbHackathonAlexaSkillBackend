@@ -1,5 +1,7 @@
 # Amazon Echo (Alexa) backend
 
+> This skill uses a backend located at [krissrex/hackathon-dnb](https://github.com/krissrex/hackathon-dnb)
+
 ## Setup
 Create the lambda at AWS in Ireland (alexa supports 2 zones). Use Alexa Skills Kit as trigger. Look at [awsLambdaConfig.yaml](lambda/awsLambdaConfig.yaml), which is the complete function exported as AWS SAM file.  
 Use [this guide](https://github.com/alexa/skill-sample-nodejs-fact/blob/master/step-by-step/1-voice-user-interface.md).  
